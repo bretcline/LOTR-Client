@@ -4,6 +4,13 @@ using System.Text.Json;
 
 namespace LOTRSdk
 {
+    public class DoesNotExistException : Exception
+    {
+        public DoesNotExistException() : base( "Item does not exists.") { }
+        public DoesNotExistException(string err) : base(err) { }
+        public DoesNotExistException(Exception err) : base(err.Message) { }
+    }
+
     public abstract class BaseRequest<R,T>
     {
         public BaseRequest( string accessToken )
@@ -44,9 +51,8 @@ namespace LOTRSdk
             else
             {
                 var error = JsonSerializer.Deserialize<ServerError>(response.Content);
-                throw new Exception( error.Message );
+                throw new DoesNotExistException( error.Message );
             }
-
             return rc;
         }
 
@@ -56,13 +62,15 @@ namespace LOTRSdk
             return rc.docs;
         }
 
-        public T GetByID( string id )
+        public T? GetByID( string id )
         {
-            var rc = QueryAPI(id);
-            if( null != rc && rc.docs.Count > 0 )
-                return rc.docs[0];
-            else 
-                throw new Exception( $"Invalid ID - {id}");
+            T? rc = default;
+            var data = QueryAPI(id);
+            if( null != data && null != data.docs && data.docs.Count > 0 )
+                rc = data.docs[0];
+            else
+                throw new DoesNotExistException($"Invalid ID - {id}");
+            return rc;
         }
 
         public Pagination? Pagination { get; set; }
