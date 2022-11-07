@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>LOTR Sdk</Title>
+    <Description>SDK for the LOTR Api</Description>
+    <RepositoryUrl>https://github.com/bretcline/LOTR-Client</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>LOTR API</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RestSharp" Version="108.0.2" />
+  </ItemGroup>
+
+</Project>
